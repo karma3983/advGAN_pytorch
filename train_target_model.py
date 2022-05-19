@@ -21,13 +21,13 @@ if __name__ == "__main__":
     # training the target model
     target_model = MNIST_target_net().to(device)
     target_model.train()
-    opt_model = torch.optim.Adam(target_model.parameters(), lr=0.001)
+    opt_model = torch.optim.Adam(target_model.parameters(), lr=0.001) #optim=最適化
     epochs = 40
     for epoch in range(epochs):
         loss_epoch = 0
         if epoch == 20:
             opt_model = torch.optim.Adam(target_model.parameters(), lr=0.0001)
-        for i, data in enumerate(train_dataloader, 0):
+        for i, data in enumerate(train_dataloader, 0): #enumerate()のカッコ内にリスト等を指定、iとdataに番号(0,1,2,...)と要素を入れる
             train_imgs, train_labels = data
             train_imgs, train_labels = train_imgs.to(device), train_labels.to(device)
             logits_model = target_model(train_imgs)
