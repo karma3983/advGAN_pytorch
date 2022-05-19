@@ -26,13 +26,14 @@ if __name__ == "__main__": #__name__を使うと、モジュール名が文字�
     # training the target model
     target_model = MNIST_target_net().to(device)
     target_model.train()
-    opt_model = torch.optim.Adam(target_model.parameters(), lr=0.001) #optim=最適化
+    opt_model = torch.optim.Adam(target_model.parameters(), lr=0.001) #optim=最適化、lrは学習率(0.1以下なら収束)
     epochs = 40
     for epoch in range(epochs):
         loss_epoch = 0
         if epoch == 20:
-            opt_model = torch.optim.Adam(target_model.parameters(), lr=0.0001)
-        for i, data in enumerate(train_dataloader, 0): #enumerate()のカッコ内にリスト等を指定、iとdataに番号(0,1,2,...)と要素を入れる
+            opt_model = torch.optim.Adam(target_model.parameters(), lr=0.0001) #lrは学習率(0.1以下なら収束)
+        #enumerate()のカッコ内にリスト(train_dataloader)等を指定、iとdataに番号(0,1,2,...)と要素を格納、番号の開始値は0に指定
+        for i, data in enumerate(train_dataloader, 0):
             train_imgs, train_labels = data
             train_imgs, train_labels = train_imgs.to(device), train_labels.to(device)
             logits_model = target_model(train_imgs)
