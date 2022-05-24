@@ -1,3 +1,6 @@
+#https://qiita.com/mathlive/items/8e1f9a8467fff8dfd03c
+#https://qiita.com/poorko/items/c151ff4a827f114fe954
+#nnはパラメータを持つ層、Fはパラメータを持たない層がそれぞれ入っているモジュール
 import torch.nn as nn
 import torch.nn.functional as F #conv2d、活性化関数(relu等)、dropout、cross_entropy等
 
@@ -7,17 +10,20 @@ class MNIST_target_net(nn.Module):
     #インスタンス（○○ = MNIST_target_net）を生成した際に、1番最初に呼び出される関数（コンストラクタ）
     def __init__(self): #self：メソッド(def)を跨いでも同じ変数扱いとなる
         super(MNIST_target_net, self).__init__() #親(MNIST_target_net)のコンストラクタ(__init__)を呼び出す
+        #2次元畳み込み　入力チャネル=1、出力チャネル=32、カーネルサイズ3
         self.conv1 = nn.Conv2d(1, 32, kernel_size=3)
         self.conv2 = nn.Conv2d(32, 32, kernel_size=3)
         self.conv3 = nn.Conv2d(32, 64, kernel_size=3)
         self.conv4 = nn.Conv2d(64, 64, kernel_size=3)
 
+        #入力データに線形変換　入力サイズ(1次元) = 64チャネル * 4height * 4width、出力サイズ：200
         self.fc1 = nn.Linear(64*4*4, 200)
         self.fc2 = nn.Linear(200, 200)
         self.logits = nn.Linear(200, 10)
 
+    #引数としてデータ（x）を受け取り、出力層の値を出す(順伝播の流れ)
     def forward(self, x):
-        x = F.relu(self.conv1(x)) #nn.functional.relu 
+        x = F.relu(self.conv1(x)) #nn.functional.relu：データが0より大きければその値を出力し、0より小さければ0
         x = F.relu(self.conv2(x))
         x = F.max_pool2d(x, 2)
         x = F.relu(self.conv3(x))
