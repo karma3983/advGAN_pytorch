@@ -31,7 +31,7 @@ if __name__ == "__main__":
 
     # training the target model　対象モデルの学習
     target_model = MNIST_target_net().to(device)
-    target_model.train()
+    target_model.train() #model.train()：ネットワークを学習モードに
     opt_model = torch.optim.Adam(target_model.parameters(), lr=0.001) #optim=最適化、lrは学習率(0.1以下なら収束)
     epochs = 40
     for epoch in range(epochs):
@@ -54,7 +54,7 @@ if __name__ == "__main__":
     # save model
     targeted_model_file_name = './MNIST_target_model.pth'
     torch.save(target_model.state_dict(), targeted_model_file_name) #target_model.state_dict()を保存('./MNIST_target_model.pth'に)
-    target_model.eval()
+    target_model.eval() #model.eval()：self.train(False)を返す、ネットワークを推論モードに、dropoutやbatch normの on/offの切替？
 
     # MNIST test dataset
     #'./dataset'はデータセットが存在するディレクトリ　train=Trueならtrain-image-idx3-ubyteからデータセット作成、falseならt10k-images-idx3-ubyteで作成
