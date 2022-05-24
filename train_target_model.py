@@ -1,3 +1,4 @@
+#使用モジュール
 import torch #NumPY等を備えたTensorライブラリ
 import torchvision.datasets #Pytorchの画像データセット(今回はMNIST)
 import torchvision.transforms as transforms #ToTensor(入力：PILImage　出力：Tensor)等のtransform
@@ -21,7 +22,10 @@ if __name__ == "__main__":
     #'./dataset'はデータセットが存在するディレクトリ
     #train=Trueならtrain-image-idx3-ubyteからデータセット作成、falseならt10k-images-idx3-ubyteで作成
     #transformは、PILイメージを取り込み、変換されたバージョンを返す（今回はtorchvision.transforms）　download=Trueはダウンロードする
-    mnist_dataset = torchvision.datasets.MNIST('./dataset', train=True, transform=transforms.ToTensor(), download=True)
+    mnist_dataset = torchvision.datasets.MNIST('./dataset', 
+                                               train=True, 
+                                               transform=transforms.ToTensor(), 
+                                               download=True)
     # mnist_datasetからサンプルを取得し、訓練データ（ミニバッチ）を作成　shuffle=シャッフルするかどうか　num_workers=並列実行数
     train_dataloader = DataLoader(mnist_dataset, batch_size=batch_size, shuffle=False, num_workers=1)
 
@@ -49,13 +53,16 @@ if __name__ == "__main__":
 
     # save model
     targeted_model_file_name = './MNIST_target_model.pth'
-    torch.save(target_model.state_dict(), targeted_model_file_name)
+    torch.save(target_model.state_dict(), targeted_model_file_name) #target_model.state_dict()を保存('./MNIST_target_model.pth'に)
     target_model.eval()
 
     # MNIST test dataset
     #'./dataset'はデータセットが存在するディレクトリ　train=Trueならtrain-image-idx3-ubyteからデータセット作成、falseならt10k-images-idx3-ubyteで作成
     #transformは、PILイメージを取り込み、変換されたバージョンを返す（今回はtorchvision.transforms）　download=Trueはダウンロードする
-    mnist_dataset_test = torchvision.datasets.MNIST('./dataset', train=False, transform=transforms.ToTensor(), download=True)
+    mnist_dataset_test = torchvision.datasets.MNIST('./dataset', 
+                                                    train=False, 
+                                                    transform=transforms.ToTensor(), 
+                                                    download=True)
     # mnist_datasetからサンプルを取得し、訓練データ（ミニバッチ）を作成　shuffle=シャッフルするかどうか　num_workers=並列実行数
     test_dataloader = DataLoader(mnist_dataset_test, batch_size=batch_size, shuffle=True, num_workers=1)
     num_correct = 0
