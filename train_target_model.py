@@ -1,13 +1,14 @@
 import torch #NumPY等を備えたTensorライブラリ
-import torchvision.datasets
-import torchvision.transforms as transforms
+import torchvision.datasets #Pytorchの画像データセット(今回はMNIST)
+import torchvision.transforms as transforms #ToTensor(入力：PILImage　出力：Tensor)等のtransform
 from torch.utils.data import DataLoader #Dataloader等のユーティリティ関数
 import torch.nn.functional as F
 from models import  MNIST_target_net #models内の定義
 
 
 #python 〇〇.pyとして実行されているかどうか判定（importされても動かない）
-if __name__ == "__main__": #__name__を使うと、モジュール名が文字列で入る（例：math.__name__なら"math"）、しかしコマンドラインから実行すると"__main__"が入る
+#__name__を使うと、モジュール名が文字列で入る（例：math.__name__なら"math"）、しかしコマンドラインから実行すると"__main__"が入る
+if __name__ == "__main__":
     use_cuda = True
     image_nc = 1
     batch_size = 256
@@ -17,7 +18,8 @@ if __name__ == "__main__": #__name__を使うと、モジュール名が文字�
     #コマンドラインから実行され、GPUが利用可能なら"cuda"、それ以外は"cpu"を「使用できるデバイス名」として変数に格納
     device = torch.device("cuda" if (use_cuda and torch.cuda.is_available()) else "cpu")
 
-    #'./dataset'はデータセットが存在するディレクトリ　train=Trueならtrain-image-idx3-ubyteからデータセット作成、falseならt10k-images-idx3-ubyteで作成
+    #'./dataset'はデータセットが存在するディレクトリ
+    #train=Trueならtrain-image-idx3-ubyteからデータセット作成、falseならt10k-images-idx3-ubyteで作成
     #transformは、PILイメージを取り込み、変換されたバージョンを返す（今回はtorchvision.transforms）　download=Trueはダウンロードする
     mnist_dataset = torchvision.datasets.MNIST('./dataset', train=True, transform=transforms.ToTensor(), download=True)
     # mnist_datasetからサンプルを取得し、訓練データ（ミニバッチ）を作成　shuffle=シャッフルするかどうか　num_workers=並列実行数
