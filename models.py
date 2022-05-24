@@ -4,8 +4,9 @@ import torch.nn.functional as F #conv2d、活性化関数(relu等)、dropout、c
 
 # Target Model definition
 class MNIST_target_net(nn.Module):
-    def __init__(self):
-        super(MNIST_target_net, self).__init__()
+    #インスタンス（○○ = MNIST_target_net）を生成した際に、1番最初に呼び出される関数（コンストラクタ）
+    def __init__(self): #self：メソッド(def)を跨いでも同じ変数扱いとなる
+        super(MNIST_target_net, self).__init__() #親(MNIST_target_net)のコンストラクタ(__init__)を呼び出す
         self.conv1 = nn.Conv2d(1, 32, kernel_size=3)
         self.conv2 = nn.Conv2d(32, 32, kernel_size=3)
         self.conv3 = nn.Conv2d(32, 64, kernel_size=3)
