@@ -1,5 +1,5 @@
 import torch.nn as nn
-import torch.nn.functional as F
+import torch.nn.functional as F #conv2d、活性化関数(relu等)、dropout、cross_entropy等
 
 
 # Target Model definition
@@ -16,7 +16,7 @@ class MNIST_target_net(nn.Module):
         self.logits = nn.Linear(200, 10)
 
     def forward(self, x):
-        x = F.relu(self.conv1(x))
+        x = F.relu(self.conv1(x)) #nn.functional.relu 
         x = F.relu(self.conv2(x))
         x = F.max_pool2d(x, 2)
         x = F.relu(self.conv3(x))
