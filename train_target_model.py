@@ -2,7 +2,7 @@ import torch #NumPY等を備えたTensorライブラリ
 import torchvision.datasets #Pytorchの画像データセット(今回はMNIST)
 import torchvision.transforms as transforms #ToTensor(入力：PILImage　出力：Tensor)等のtransform
 from torch.utils.data import DataLoader #Dataloader等のユーティリティ関数
-import torch.nn.functional as F
+import torch.nn.functional as F #conv2d、活性化関数(relu等)、dropout、cross_entropy等
 from models import  MNIST_target_net #models内の定義
 
 
