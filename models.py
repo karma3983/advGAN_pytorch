@@ -1,5 +1,8 @@
+
 #https://qiita.com/mathlive/items/8e1f9a8467fff8dfd03c
 #https://qiita.com/poorko/items/c151ff4a827f114fe954
+#2dmaxpool https://cvml-expertguide.net/terms/dl/layers/pooling-layer/max-pooling/#:~:text=%E6%9C%80%E5%A4%A7%E5%80%A4%E3%83%97%E3%83%BC%E3%83%AA%E3%83%B3%E3%82%B0(Max%20Pooling%20)%E3%81%A8%E3%81%AF%EF%BC%8CCNN(,%E6%AE%8B%E3%81%99%E3%83%97%E3%83%BC%E3%83%AA%E3%83%B3%E3%82%B0%E5%87%A6%E7%90%86%E3%81%A7%E3%81%82%E3%82%8B%EF%BC%8E
+
 #nnはパラメータを持つ層、Fはパラメータを持たない層がそれぞれ入っているモジュール
 import torch.nn as nn
 import torch.nn.functional as F #conv2d、活性化関数(relu等)、dropout、cross_entropy等
@@ -25,15 +28,17 @@ class MNIST_target_net(nn.Module):
     def forward(self, x):
         x = F.relu(self.conv1(x)) #nn.functional.relu：データが0より大きければその値を出力し、0より小さければ0
         x = F.relu(self.conv2(x))
-        x = F.max_pool2d(x, 2)
+        x = F.max_pool2d(x, 2) #x:入力値　カーネルサイズ2　2D最大値プーリング処理（カーネル内の最大値を出力する）
         x = F.relu(self.conv3(x))
         x = F.relu(self.conv4(x))
         x = F.max_pool2d(x, 2)
+        #-1を入れることで、2つ目の値にサイズ数を調整(Tensorの要素数に合わせる必要あり)
         x = x.view(-1, 64*4*4)
-        x = F.relu(self.fc1(x))
+        x = F.relu(self.fc1(x)) #self.fc1 = nn.Linear(64*4*4, 200)
+        #一定割合(50%)のTensor要素を不活性化(0に)させながら学習を行い、過学習を防ぐ
         x = F.dropout(x, 0.5)
-        x = F.relu(self.fc2(x))
-        x = self.logits(x)
+        x = F.relu(self.fc2(x)) #self.fc2 = nn.Linear(200, 200)
+        x = self.logits(x) #self.logits = nn.Linear(200, 10)
         return x
 
 
