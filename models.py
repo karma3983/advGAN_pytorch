@@ -28,12 +28,12 @@ class MNIST_target_net(nn.Module):
     def forward(self, x):
         x = F.relu(self.conv1(x)) #nn.functional.relu：データが0より大きければその値を出力し、0より小さければ0
         x = F.relu(self.conv2(x))
-        x = F.max_pool2d(x, 2) #x:入力値　カーネルサイズ2　2D最大値プーリング処理（カーネル内の最大値を出力する）
+        x = F.max_pool2d(x, 2) #x:入力値　カーネルサイズ2　2D最大値プーリング処理（2*2カーネル内の最大値を出力する）
         x = F.relu(self.conv3(x))
         x = F.relu(self.conv4(x))
         x = F.max_pool2d(x, 2)
         #-1を入れることで、2つ目の値にサイズ数を調整(Tensorの要素数に合わせる必要あり)
-        x = x.view(-1, 64*4*4)
+        x = x.view(-1, 64*4*4) #4Height*4Wdthが64枚 
         x = F.relu(self.fc1(x)) #self.fc1 = nn.Linear(64*4*4, 200)
         #一定割合(50%)のTensor要素を不活性化(0に)させながら学習を行い、過学習を防ぐ
         x = F.dropout(x, 0.5)
@@ -45,10 +45,13 @@ class MNIST_target_net(nn.Module):
 class Discriminator(nn.Module):
     def __init__(self, image_nc):
         super(Discriminator, self).__init__()
+        
         # MNIST: 1*28*28
         model = [
+            #2次元畳み込み　入力チャネル=1、出力チャネル=8、カーネルサイズ(特徴量)4
+            #ストライド(カーネルが移動する幅、大きい画像を縮小する際に1以上にする)2、バイアス(重み)を出力に追加
             nn.Conv2d(image_nc, 8, kernel_size=4, stride=2, padding=0, bias=True),
-            nn.LeakyReLU(0.2),
+            nn.LeakyReLU(0.2),　#nn.functional.Leakyrelu：データが0より大きければその値を出力し、0より小さければ0.2をかけて出力
             # 8*13*13
             nn.Conv2d(8, 16, kernel_size=4, stride=2, padding=0, bias=True),
             nn.BatchNorm2d(16),
