@@ -11,11 +11,13 @@ models_path = './models/'
 
 # custom weights initialization called on netG and netD
 def weights_init(m):
-    classname = m.__class__.__name__
-    if classname.find('Conv') != -1:
+    classname = m.__class__.__name__ #クラス名を取得
+    if classname.find('Conv') != -1: #Convという名前の場合
+        #Tensor(m.weight.data)を正規分布(重み、平均0.0、標準偏差0.02)で初期化
         nn.init.normal_(m.weight.data, 0.0, 0.02)
-    elif classname.find('BatchNorm') != -1:
+    elif classname.find('BatchNorm') != -1: #BatchNormという名前の場合
         nn.init.normal_(m.weight.data, 1.0, 0.02)
+        #Tensor(m.biad.data)を定数0で初期化するー＞例：tensor([0,0,0,0,0,0,0,0,0])
         nn.init.constant_(m.bias.data, 0)
 
 
@@ -40,7 +42,7 @@ class AdvGAN_Attack:
         self.netG = models.Generator(self.gen_input_nc, image_nc).to(device)
         self.netDisc = models.Discriminator(image_nc).to(device)
 
-        # initialize all weights
+        # initialize all weights 重み初期化
         self.netG.apply(weights_init)
         self.netDisc.apply(weights_init)
 
