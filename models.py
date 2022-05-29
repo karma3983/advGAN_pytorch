@@ -52,10 +52,13 @@ class Discriminator(nn.Module):
             #ストライド(カーネルが移動する幅、大きい画像を縮小する際に1以上にする)2、バイアス(重み)を出力に追加
             nn.Conv2d(image_nc, 8, kernel_size=4, stride=2, padding=0, bias=True),
             nn.LeakyReLU(0.2),　#nn.functional.Leakyrelu：データが0より大きければその値を出力し、0より小さければ0.2をかけて出力
+            
             # 8*13*13
             nn.Conv2d(8, 16, kernel_size=4, stride=2, padding=0, bias=True),
+            #バッチ正規化 平均を0、分散を1にして精度を高める
             nn.BatchNorm2d(16),
             nn.LeakyReLU(0.2),
+            
             # 16*5*5
             nn.Conv2d(16, 32, kernel_size=4, stride=2, padding=0, bias=True),
             nn.BatchNorm2d(32),
