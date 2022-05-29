@@ -109,6 +109,9 @@ class Generator(nn.Module):
                        ResnetBlock(32),]
 
         decoder_lis = [
+            #2次元転置畳み込み　入力チャネル=32、出力チャネル=16、カーネルサイズ(特徴量)3
+            #ストライド(カーネルが移動する幅、大きい画像を縮小する際に1以上にする)2、
+            #パディング(入力の周囲を0で埋める)はしない、バイアス(重み)を出力に追加しない
             nn.ConvTranspose2d(32, 16, kernel_size=3, stride=2, padding=0, bias=False),
             nn.InstanceNorm2d(16),
             nn.ReLU(),
@@ -122,10 +125,12 @@ class Generator(nn.Module):
             # state size. image_nc x 28 x 28
         ]
 
+        #ネットワークを定義
         self.encoder = nn.Sequential(*encoder_lis)
         self.bottle_neck = nn.Sequential(*bottle_neck_lis)
         self.decoder = nn.Sequential(*decoder_lis)
 
+    #入力としてTensorを受け取る
     def forward(self, x):
         x = self.encoder(x)
         x = self.bottle_neck(x)
@@ -135,6 +140,7 @@ class Generator(nn.Module):
 
 # Define a resnet block
 # modified from https://github.com/junyanz/pytorch-CycleGAN-and-pix2pix/blob/master/models/networks.py
+# 修正
 class ResnetBlock(nn.Module):
     def __init__(self, dim, padding_type='reflect', norm_layer=nn.BatchNorm2d, use_dropout=False, use_bias=False):
         super(ResnetBlock, self).__init__()
