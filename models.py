@@ -55,7 +55,7 @@ class Discriminator(nn.Module):
             
             # 8*13*13
             nn.Conv2d(8, 16, kernel_size=4, stride=2, padding=0, bias=True),
-            #バッチ正規化 平均を0、分散を1にして精度を高める
+            #バッチ正規化 平均を0、分散を1にして精度を高める(16チャネル)
             nn.BatchNorm2d(16),
             nn.LeakyReLU(0.2),
             
@@ -63,14 +63,16 @@ class Discriminator(nn.Module):
             nn.Conv2d(16, 32, kernel_size=4, stride=2, padding=0, bias=True),
             nn.BatchNorm2d(32),
             nn.LeakyReLU(0.2),
+            ##2次元畳み込み　入力チャネル=32、出力チャネル=1、カーネルサイズ(特徴量)1
             nn.Conv2d(32, 1, 1),
-            nn.Sigmoid()
+            nn.Sigmoid() #nn.functional.Sigmoid：1/(1+exp(-x))
             # 32*1*1
         ]
-        self.model = nn.Sequential(*model)
+        self.model = nn.Sequential(*model) #ネットワークを定義
 
+    #入力としてTensorを受け取る
     def forward(self, x):
-        output = self.model(x).squeeze()
+        output = self.model(x).squeeze() #次元のサイズが1を削減
         return output
 
 
@@ -83,7 +85,11 @@ class Generator(nn.Module):
 
         encoder_lis = [
             # MNIST:1*28*28
+            #2次元畳み込み　入力チャネル=1、出力チャネル=8、カーネルサイズ(特徴量)3
+            #ストライド(カーネルが移動する幅、大きい画像を縮小する際に1以上にする)1、
+            #パディング(入力の周囲を0で埋める)はしない、バイアス(重み)を出力に追加
             nn.Conv2d(gen_input_nc, 8, kernel_size=3, stride=1, padding=0, bias=True),
+            #BatchNormのaffine=False(アフィン変換、回転させたり引き伸ばした変換を使用しない)バージョン
             nn.InstanceNorm2d(8),
             nn.ReLU(),
             # 8*26*26
