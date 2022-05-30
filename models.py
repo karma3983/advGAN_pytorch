@@ -51,7 +51,7 @@ class Discriminator(nn.Module):
             #2次元畳み込み　入力チャネル=1、出力チャネル=8、カーネルサイズ(特徴量)4
             #ストライド(カーネルが移動する幅、大きい画像を縮小する際に1以上にする)2、バイアス(重み)を出力に追加
             nn.Conv2d(image_nc, 8, kernel_size=4, stride=2, padding=0, bias=True),
-            nn.LeakyReLU(0.2),　#nn.functional.Leakyrelu：データが0より大きければその値を出力し、0より小さければ0.2をかけて出力
+            nn.LeakyReLU(0.2), #nn.functional.Leakyrelu：データが0より大きければその値を出力し、0より小さければ0.2をかけて出力
             
             # 8*13*13
             nn.Conv2d(8, 16, kernel_size=4, stride=2, padding=0, bias=True),
