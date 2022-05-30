@@ -32,4 +32,4 @@ advGAN = AdvGAN_Attack(device,
                           BOX_MIN,
                           BOX_MAX)
 
-advGAN.train(dataloader, epochs)
+advGAN.train(dataloader, epochs) #torch.utils.data 60
