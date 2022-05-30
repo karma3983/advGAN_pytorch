@@ -166,7 +166,7 @@ class ResnetBlock(nn.Module):
 
         p = 0
         if padding_type == 'reflect':
-            conv_block += [nn.ReflectionPad2d(1)]
+            conv_block += [nn.ReflectionPad2d(1)] #入力画像の周りにかがみ合わせにピクセルを囲む
         elif padding_type == 'replicate':
             conv_block += [nn.ReplicationPad2d(1)]
         elif padding_type == 'zero':
