@@ -8,7 +8,7 @@ import os
 
 models_path = './models/'
 
-
+#netGとnetDで呼ばれる重みの初期化
 # custom weights initialization called on netG and netD
 def weights_init(m):
     classname = m.__class__.__name__ #クラス名を取得
@@ -39,24 +39,24 @@ class AdvGAN_Attack:
         self.box_max = box_max
 
         self.gen_input_nc = image_nc
-        self.netG = models.Generator(self.gen_input_nc, image_nc).to(device)
-        self.netDisc = models.Discriminator(image_nc).to(device)
+        self.netG = models.Generator(self.gen_input_nc, image_nc).to(device) #modelsファイル
+        self.netDisc = models.Discriminator(image_nc).to(device) #modelsファイル
 
         # initialize all weights 重み初期化
         self.netG.apply(weights_init)
         self.netDisc.apply(weights_init)
 
-        # initialize optimizers
+        # initialize optimizers 最適化初期化
         self.optimizer_G = torch.optim.Adam(self.netG.parameters(),
                                             lr=0.001)
         self.optimizer_D = torch.optim.Adam(self.netDisc.parameters(),
                                             lr=0.001)
 
-        if not os.path.exists(models_path):
+        if not os.path.exists(models_path): #models_pathが存在しないなら追加
             os.makedirs(models_path)
 
     def train_batch(self, x, labels):
-        # optimize D
+        # optimize D ディスクリミネーター最適化
         for i in range(1):
             perturbation = self.netG(x)
 
@@ -64,20 +64,20 @@ class AdvGAN_Attack:
             adv_images = torch.clamp(perturbation, -0.3, 0.3) + x
             adv_images = torch.clamp(adv_images, self.box_min, self.box_max)
 
-            self.optimizer_D.zero_grad()
+            self.optimizer_D.zero_grad() #52行の勾配を0に
             pred_real = self.netDisc(x)
             loss_D_real = F.mse_loss(pred_real, torch.ones_like(pred_real, device=self.device))
-            loss_D_real.backward()
+            loss_D_real.backward() #誤差逆伝播(この際勾配が溜まる)
 
             pred_fake = self.netDisc(adv_images.detach())
             loss_D_fake = F.mse_loss(pred_fake, torch.zeros_like(pred_fake, device=self.device))
-            loss_D_fake.backward()
+            loss_D_fake.backward() #誤差逆伝播(この際勾配が溜まる)
             loss_D_GAN = loss_D_fake + loss_D_real
-            self.optimizer_D.step()
+            self.optimizer_D.step() #パラメータをモデルに反映
 
-        # optimize G
+        # optimize G ジェネレータ最適化
         for i in range(1):
-            self.optimizer_G.zero_grad()
+            self.optimizer_G.zero_grad() #50行の勾配を0に
 
             # cal G's loss in GAN
             pred_fake = self.netDisc(adv_images)
@@ -130,6 +130,7 @@ class AdvGAN_Attack:
             loss_G_fake_sum = 0
             loss_perturb_sum = 0
             loss_adv_sum = 0
+            #enumerate()のカッコ内にリスト(train_dataloader)等を指定、iとdataに番号(0,1,2,...)と要素を格納、開始値は0に指定
             for i, data in enumerate(train_dataloader, start=0):
                 images, labels = data
                 images, labels = images.to(self.device), labels.to(self.device)
