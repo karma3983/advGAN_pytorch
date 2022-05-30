@@ -55,13 +55,13 @@ class AdvGAN_Attack:
         if not os.path.exists(models_path): #models_pathが存在しないなら追加
             os.makedirs(models_path)
 
-    def train_batch(self, x, labels):
+    def train_batch(self, x, labels): #images, labels
         # optimize D ディスクリミネーター最適化
         for i in range(1):
             perturbation = self.netG(x)
 
             # add a clipping trick
-            adv_images = torch.clamp(perturbation, -0.3, 0.3) + x
+            adv_images = torch.clamp(perturbation, -0.3, 0.3) + x #上限0.3、下限-0.3
             adv_images = torch.clamp(adv_images, self.box_min, self.box_max)
 
             self.optimizer_D.zero_grad() #52行の勾配を0に
