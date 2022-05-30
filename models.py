@@ -72,7 +72,7 @@ class Discriminator(nn.Module):
 
     #入力としてTensorを受け取る
     def forward(self, x):
-        output = self.model(x).squeeze() #次元のサイズが1を削減
+        output = self.model(x).squeeze() #次元のサイズが1のものを削減
         return output
 
 
