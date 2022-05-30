@@ -74,3 +74,22 @@ if __name__ == "__main__":
         num_correct += torch.sum(pred_lab==test_label,0) #pred_lab==test_labelがdimを保持しているか確認
 
     print('accuracy in testing set: %f\n'%(num_correct.item()/len(mnist_dataset_test))) #正確さを出力
+    
+    # ------------------------------------------------------------------------
+    
+    mnist_dataset_test = torchvision.datasets.MNIST('./dataset', 
+                                                    train=True, 
+                                                    transform=transforms.ToTensor(), 
+                                                    download=True)
+    # mnist_datasetからサンプルを取得し、訓練データ（ミニバッチ）を作成　shuffle=シャッフルするかどうか　num_workers=並列実行数
+    test_dataloader = DataLoader(mnist_dataset_test, batch_size=batch_size, shuffle=True, num_workers=1)
+    num_correct = 0
+    #enumerate()のカッコ内にリスト(train_dataloader)等を指定、iとdataに番号(0,1,2,...)と要素を格納、番号の開始値は0に指定
+    for i, data in enumerate(test_dataloader, 0):
+        test_img, test_label = data
+        test_img, test_label = test_img.to(device), test_label.to(device)
+        #argmax：Tensor(PyTorchで必ずデータ構造)の全ての要素の内、最大のインデックスを返す
+        pred_lab = torch.argmax(target_model(test_img), 1) #target_model = MNIST_target_net().to(device)　なお、dim(縮小する次元)=1
+        num_correct += torch.sum(pred_lab==test_label,0) #pred_lab==test_labelがdimを保持しているか確認
+
+    print('accuracy in trainning set: %f\n'%(num_correct.item()/len(mnist_dataset_test))) #正確さを出力
