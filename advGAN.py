@@ -23,12 +23,12 @@ def weights_init(m):
 
 class AdvGAN_Attack:
     def __init__(self,
-                 device,
-                 model,
-                 model_num_labels,
-                 image_nc,
-                 box_min,
-                 box_max):
+                 device, #GPU
+                 model, #MNIST_target_net
+                 model_num_labels, #10
+                 image_nc, #1
+                 box_min, #0
+                 box_max): #1
         output_nc = image_nc
         self.device = device
         self.model_num_labels = model_num_labels
@@ -38,7 +38,7 @@ class AdvGAN_Attack:
         self.box_min = box_min
         self.box_max = box_max
 
-        self.gen_input_nc = image_nc
+        self.gen_input_nc = image_nc #1
         self.netG = models.Generator(self.gen_input_nc, image_nc).to(device) #modelsファイル
         self.netDisc = models.Discriminator(image_nc).to(device) #modelsファイル
 
