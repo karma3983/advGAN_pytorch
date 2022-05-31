@@ -92,7 +92,7 @@ class AdvGAN_Attack:
             # cal adv loss
             logits_model = self.model(adv_images)
             probs_model = F.softmax(logits_model, dim=1)
-            onehot_labels = torch.eye(self.model_num_labels, device=self.device)[labels]
+            onehot_labels = torch.eye(self.model_num_labels, device=self.device)[labels] #torch.eye：対角線上の要素が全て1、他は全て0の行列
 
             # C&W loss function
             real = torch.sum(onehot_labels * probs_model, dim=1)
