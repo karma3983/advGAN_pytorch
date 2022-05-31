@@ -58,7 +58,7 @@ class AdvGAN_Attack:
     def train_batch(self, x, labels): #images, labels
         # optimize D ディスクリミネーター最適化
         for i in range(1):
-            perturbation = self.netG(x)
+            perturbation = self.netG(x) #models.Generator(self.gen_input_nc, image_nc).to(device)
 
             # add a clipping trick
             adv_images = torch.clamp(perturbation, -0.3, 0.3) + x #上限0.3、下限-0.3
