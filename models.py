@@ -142,7 +142,7 @@ class Generator(nn.Module):
 # modified from https://github.com/junyanz/pytorch-CycleGAN-and-pix2pix/blob/master/models/networks.py
 # 修正
 class ResnetBlock(nn.Module):
-    def __init__(self, dim, padding_type='reflect', norm_layer=nn.BatchNorm2d, use_dropout=False, use_bias=False):
+    def __init__(self, dim, padding_type='reflect', norm_layer=nn.BatchNorm2d, use_dropout=False, use_bias=False): #dim=32
         super(ResnetBlock, self).__init__()
         self.conv_block = self.build_conv_block(dim, padding_type, norm_layer, use_dropout, use_bias)
 
@@ -150,32 +150,32 @@ class ResnetBlock(nn.Module):
         conv_block = []
         p = 0
         if padding_type == 'reflect':
-            conv_block += [nn.ReflectionPad2d(1)]
+            conv_block += [nn.ReflectionPad2d(1)] #入力画像の周り一マスに、かがみ合わせでピクセルを囲む
         elif padding_type == 'replicate':
-            conv_block += [nn.ReplicationPad2d(1)]
+            conv_block += [nn.ReplicationPad2d(1)] #入力画像の周り一マスを、隣のピクセルの値で囲む
         elif padding_type == 'zero':
             p = 1
         else:
-            raise NotImplementedError('padding [%s] is not implemented' % padding_type)
+            raise NotImplementedError('padding [%s] is not implemented' % padding_type) #パディング処理が未実装
 
-        conv_block += [nn.Conv2d(dim, dim, kernel_size=3, padding=p, bias=use_bias),
-                       norm_layer(dim),
+        conv_block += [nn.Conv2d(dim, dim, kernel_size=3, padding=p, bias=use_bias), #32, 32, 3, 0, False
+                       norm_layer(dim), #nn.BatchNorm2d
                        nn.ReLU(True)]
         if use_dropout:
             conv_block += [nn.Dropout(0.5)]
 
         p = 0
         if padding_type == 'reflect':
-            conv_block += [nn.ReflectionPad2d(1)] #入力画像の周りにかがみ合わせにピクセルを囲む
+            conv_block += [nn.ReflectionPad2d(1)] #入力画像の周り一マスに、かがみ合わせでピクセルを囲む
         elif padding_type == 'replicate':
-            conv_block += [nn.ReplicationPad2d(1)]
+            conv_block += [nn.ReplicationPad2d(1)] #入力画像の周り一マスを、隣のピクセルの値で囲む
         elif padding_type == 'zero':
             p = 1
         else:
-            raise NotImplementedError('padding [%s] is not implemented' % padding_type)
+            raise NotImplementedError('padding [%s] is not implemented' % padding_type) #パディング処理が未実装
 
-        conv_block += [nn.Conv2d(dim, dim, kernel_size=3, padding=p, bias=use_bias),
-                       norm_layer(dim)]
+        conv_block += [nn.Conv2d(dim, dim, kernel_size=3, padding=p, bias=use_bias), #32, 32, 3, 0, False
+                       norm_layer(dim)] #nn.BatchNorm2d
 
         return nn.Sequential(*conv_block)
 
