@@ -143,10 +143,14 @@ class AdvGAN_Attack:
                 loss_perturb_sum += loss_perturb_batch
                 loss_adv_sum += loss_adv_batch
                 
+                print("番号：",i)
+                #print("画像",images)
+                #print("ラベル：",labels)
                 print("loss_D_batch：",loss_D_batch)
                 print("loss_G_fake_batch：",loss_G_fake_batch)
                 print("loss_perturb_batch：",loss_perturb_batch)
                 print("loss_adv_batch：",loss_adv_batch)
+                print("-------------------------------------------")
 
             # print statistics
             num_batch = len(train_dataloader)
@@ -160,7 +164,6 @@ class AdvGAN_Attack:
              \nloss_perturb: %.6f, loss_adv: %.6f, \n" %
                   (epoch, loss_D_sum/num_batch, loss_G_fake_sum/num_batch,
                    loss_perturb_sum/num_batch, loss_adv_sum/num_batch))
-            print("-------------------------------------------")
 
             # save generator
             if epoch%20==0:
