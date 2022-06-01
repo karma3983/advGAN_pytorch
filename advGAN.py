@@ -73,7 +73,7 @@ class AdvGAN_Attack:
             pred_fake = self.netDisc(adv_images.detach())  #self.netDisc = models.Discriminator(image_nc).to(device)
             loss_D_fake = F.mse_loss(pred_fake, torch.zeros_like(pred_fake, device=self.device))
             loss_D_fake.backward() #誤差逆伝播(この際勾配が溜まる)
-            loss_D_GAN = loss_D_fake + loss_D_real
+            loss_D_GAN = loss_D_fake + loss_D_real #★★★論文のLGANに相当するもの★★★
             self.optimizer_D.step() #パラメータをモデルに反映
 
         # optimize G ジェネレータ最適化
@@ -82,7 +82,7 @@ class AdvGAN_Attack:
 
             # cal G's loss in GAN
             pred_fake = self.netDisc(adv_images)
-            loss_G_fake = F.mse_loss(pred_fake, torch.ones_like(pred_fake, device=self.device))
+            loss_G_fake = F.mse_loss(pred_fake, torch.ones_like(pred_fake, device=self.device)) #★★★Generatorの損失★★★(多分)
             loss_G_fake.backward(retain_graph=True)
 
             # calculate perturbation norm
@@ -108,7 +108,7 @@ class AdvGAN_Attack:
 
             adv_lambda = 10
             pert_lambda = 1
-             #{10 * loss_adv = torch.sum(loss_adv)} + {1 * loss_perturb = torch.mean(torch.norm(perturbation.view(perturbation.shape[0], -1), 2, dim=1))}
+            #{10 * loss_adv = torch.sum(loss_adv)} + {1 * loss_perturb = torch.mean(torch.norm(perturbation.view(perturbation.shape[0], -1), 2, dim=1))}
             loss_G = adv_lambda * loss_adv + pert_lambda * loss_perturb
             loss_G.backward()
             self.optimizer_G.step()
