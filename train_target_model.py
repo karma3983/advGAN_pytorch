@@ -51,7 +51,7 @@ if __name__ == "__main__":
             
             print("「学習」番号：",i)
             #print("画像：",train_imgs) ずーっと0のTensor
-            print("ラベル：",train_labels)
+            print("ラベル：",train_labels) #256個*234、最後96個->60000個
             #print("ロジットモデル：",logits_model) 長い
             print("損失モデル：",loss_model)
             print("合計損失：", loss_epoch)
