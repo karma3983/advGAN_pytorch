@@ -96,10 +96,10 @@ class AdvGAN_Attack:
             onehot_labels = torch.eye(self.model_num_labels, device=self.device)[labels] #torch.eye：対角線上の要素が全て1、他は全て0の行列
 
             # C&W loss function
-            real = torch.sum(onehot_labels * probs_model, dim=1)
-            other, _ = torch.max((1 - onehot_labels) * probs_model - onehot_labels * 10000, dim=1)
+            real = torch.sum(onehot_labels * probs_model, dim=1) #分類できたデータの総和？
+            other, _ = torch.max((1 - onehot_labels) * probs_model - onehot_labels * 10000, dim=1) #最も分類できなかったデータ*10000？
             zeros = torch.zeros_like(other)
-            loss_adv = torch.max(real - other, zeros)
+            loss_adv = torch.max(real - other, zeros) #どちらが大きいか
             loss_adv = torch.sum(loss_adv)
 
             # maximize cross_entropy loss
@@ -108,6 +108,7 @@ class AdvGAN_Attack:
 
             adv_lambda = 10
             pert_lambda = 1
+             #{10 * loss_adv = torch.sum(loss_adv)} + {1 * loss_perturb = torch.mean(torch.norm(perturbation.view(perturbation.shape[0], -1), 2, dim=1))}
             loss_G = adv_lambda * loss_adv + pert_lambda * loss_perturb
             loss_G.backward()
             self.optimizer_G.step()
