@@ -52,7 +52,8 @@ class AdvGAN_Attack:
         self.optimizer_D = torch.optim.Adam(self.netDisc.parameters(),
                                             lr=0.001)
 
-        if not os.path.exists(models_path): #models_pathが存在しないなら追加
+        #models_path = './models/'、models_pathが存在しないなら追加
+        if not os.path.exists(models_path):
             os.makedirs(models_path)
 
     def train_batch(self, x, labels): #images, labels
@@ -168,6 +169,7 @@ class AdvGAN_Attack:
 
             # save generator
             if epoch%20==0:
-                netG_file_name = models_path + 'netG_epoch_' + str(epoch) + '.pth'
+                #models + netG_epoch_ + 20 or 40 or 60 + .pth
+                netG_file_name = models_path + 'netG_epoch_' + str(epoch) + '.pth' #models_path = './models/'
                 torch.save(self.netG.state_dict(), netG_file_name)
 
