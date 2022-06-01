@@ -23,13 +23,14 @@ targeted_model.eval()
 model_num_labels = 10
 
 # MNIST train dataset and dataloader declaration
-mnist_dataset = torchvision.datasets.MNIST('./dataset', train=True, transform=transforms.ToTensor(), download=True)
+mnist_dataset = torchvision.datasets.MNIST('./dataset', train=True, transform=transforms.ToTensor(), download=True) #学習用6万枚
 dataloader = DataLoader(mnist_dataset, batch_size=batch_size, shuffle=True, num_workers=1)
-advGAN = AdvGAN_Attack(device,
-                          targeted_model,
-                          model_num_labels,
-                          image_nc,
-                          BOX_MIN,
-                          BOX_MAX)
+advGAN = AdvGAN_Attack(device, #CUDA
+                          targeted_model, #MNIST_target_net().to(device)
+                          model_num_labels, #10
+                          image_nc, #1
+                          BOX_MIN, #0
+                          BOX_MAX) #1
 
-advGAN.train(dataloader, epochs) #torch.utils.data 60
+#dataloader = DataLoader(mnist_dataset, batch_size=128, shuffle=True, num_workers=1), エポック数60
+advGAN.train(dataloader, epochs)
