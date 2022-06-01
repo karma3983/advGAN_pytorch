@@ -62,8 +62,8 @@ class AdvGAN_Attack:
             perturbation = self.netG(x) #self.netG = models.Generator(self.gen_input_nc, image_nc).to(device)
 
             # add a clipping trick
-            adv_images = torch.clamp(perturbation, -0.3, 0.3) + x #上限0.3、下限-0.3
-            adv_images = torch.clamp(adv_images, self.box_min, self.box_max) #上限1、下限0
+            adv_images = torch.clamp(perturbation, -0.3, 0.3) + x #上限0.3、下限-0.3にTensorをクランプ
+            adv_images = torch.clamp(adv_images, self.box_min, self.box_max) #上限1、下限0にTensorをクランプ
 
             self.optimizer_D.zero_grad() #52行の勾配を0に
             pred_real = self.netDisc(x) #self.netDisc = models.Discriminator(image_nc).to(device)
