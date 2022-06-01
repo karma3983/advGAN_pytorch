@@ -84,11 +84,12 @@ if __name__ == "__main__":
         num_correct += torch.sum(pred_lab==test_label,0) #pred_lab==test_labelがdimを保持しているか確認
         
         print("「テスト」番号：",i)
-        print("画像：",test_img)
+        #print("画像：",test_img) ずーっと0のTensor
         print("ラベル：",test_label)
         print("画像の最大インデックス（予測値）：",pred_lab)
         print("正解数：",num_correct)
-        print("正解数.item：",num_correct.item())
+        print("一致数：",torch.sum(pred_lab==test_label,0))
+        #print("正解数.item：",num_correct.item()) 数字のみ
         print("----------------------------------")
 
     print('accuracy in testing set: %f\n'%(num_correct.item()/len(mnist_dataset_test))) #正確さを出力
@@ -111,11 +112,12 @@ if __name__ == "__main__":
         num_correct += torch.sum(pred_lab==test_label,0) #pred_lab==test_labelがdimを保持しているか確認
         
         print("「学習」番号：",i)
-        print("画像：",test_img)
+        #print("画像：",test_img) ずーっと0のTensor
         print("ラベル：",test_label)
         print("画像の最大インデックス（予測値）：",pred_lab)
         print("正解数：",num_correct)
-        print("正解数.item：",num_correct.item())
+        print("一致数：",torch.sum(pred_lab==test_label,0))
+        #print("正解数.item：",num_correct.item()) 数字
         print("----------------------------------")
 
     print('accuracy in trainning set: %f\n'%(num_correct.item()/len(mnist_dataset_test))) #正確さを出力
