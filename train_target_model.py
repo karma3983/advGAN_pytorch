@@ -56,7 +56,7 @@ if __name__ == "__main__":
             #print("損失モデル：",loss_model)
             #print("合計損失：", loss_epoch)
             #print("損失エポック.item：", loss_epoch.item()) 数字のみ
-            print("----------------------------------")
+            #print("----------------------------------")
 
         print('loss in epoch %d: %f' % (epoch, loss_epoch.item())) #損失を出力
 
