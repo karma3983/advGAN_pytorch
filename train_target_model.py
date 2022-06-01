@@ -49,12 +49,13 @@ if __name__ == "__main__":
             loss_model.backward() #誤差逆伝播(この際勾配が溜まる)
             opt_model.step() #パラメータをモデルに反映
             
-            print("番号：",i)
-            print("画像：",train_imgs)
+            print("「学習」番号：",i)
+            #print("画像：",train_imgs) ずーっと0のTensor
             print("ラベル：",train_labels)
-            print("ロジットモデル：",logits_model)
+            #print("ロジットモデル：",logits_model) 長い
             print("損失モデル：",loss_model)
             print("損失エポック：", loss_epoch)
+            print("損失エポック.item：", loss_epoch.item())
             print("----------------------------------")
 
         print('loss in epoch %d: %f' % (epoch, loss_epoch.item())) #損失を出力
@@ -82,11 +83,12 @@ if __name__ == "__main__":
         pred_lab = torch.argmax(target_model(test_img), 1) #target_model = MNIST_target_net().to(device)　なお、dim(縮小する次元)=1
         num_correct += torch.sum(pred_lab==test_label,0) #pred_lab==test_labelがdimを保持しているか確認
         
-        print("番号：",i)
+        print("「テスト」番号：",i)
         print("画像：",test_img)
         print("ラベル：",test_label)
-        print("画像の最大インデックス（予測値）：",train_labels)
+        print("画像の最大インデックス（予測値）：",pred_lab)
         print("正解数：",num_correct)
+        print("正解数.item：",num_correct.item())
         print("----------------------------------")
 
     print('accuracy in testing set: %f\n'%(num_correct.item()/len(mnist_dataset_test))) #正確さを出力
@@ -107,5 +109,13 @@ if __name__ == "__main__":
         #argmax：Tensor(PyTorchで必ずデータ構造)の全ての要素の内、最大のインデックスを返す
         pred_lab = torch.argmax(target_model(test_img), 1) #target_model = MNIST_target_net().to(device)　なお、dim(縮小する次元)=1
         num_correct += torch.sum(pred_lab==test_label,0) #pred_lab==test_labelがdimを保持しているか確認
+        
+        print("「学習」番号：",i)
+        print("画像：",test_img)
+        print("ラベル：",test_label)
+        print("画像の最大インデックス（予測値）：",pred_lab)
+        print("正解数：",num_correct)
+        print("正解数.item：",num_correct.item())
+        print("----------------------------------")
 
     print('accuracy in trainning set: %f\n'%(num_correct.item()/len(mnist_dataset_test))) #正確さを出力
