@@ -81,7 +81,7 @@ if __name__ == "__main__":
         test_img, test_label = test_img.to(device), test_label.to(device)
         #argmax：Tensor(PyTorchで必ずデータ構造)の全ての要素の内、最大のインデックスを返す
         pred_lab = torch.argmax(target_model(test_img), 1) #target_model = MNIST_target_net().to(device)　なお、dim(縮小する次元)=1
-        num_correct += torch.sum(pred_lab==test_label,0) #pred_lab==test_labelがdimを保持しているか確認
+        num_correct += torch.sum(pred_lab==test_label,0) #予測値＝ラベル、pred_lab==test_labelがdimを保持しているか確認
         
         print("「テスト」番号：",i)
         #print("画像：",test_img) ずーっと0のTensor
@@ -110,7 +110,7 @@ if __name__ == "__main__":
         test_img, test_label = test_img.to(device), test_label.to(device)
         #argmax：Tensor(PyTorchで必ずデータ構造)の全ての要素の内、最大のインデックスを返す
         pred_lab = torch.argmax(target_model(test_img), 1) #target_model = MNIST_target_net().to(device)　なお、dim(縮小する次元)=1
-        num_correct += torch.sum(pred_lab==test_label,0) #pred_lab==test_labelがdimを保持しているか確認
+        num_correct += torch.sum(pred_lab==test_label,0) #予測値＝ラベル、pred_lab==test_labelがdimを保持しているか確認
         
         print("「学習」番号：",i)
         #print("画像：",test_img) ずーっと0のTensor
