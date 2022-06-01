@@ -50,6 +50,7 @@ print('num_correct: ', num_correct.item())
 print('accuracy of adv imgs in training set: %f\n'%(num_correct.item()/len(mnist_dataset)))  # num_correct.item() ÷ 60000
 
 # test adversarial examples in MNIST testing dataset　MNISTデータセットでテストする
+#基本的にtrain_target_model.pyと同じ
 mnist_dataset_test = torchvision.datasets.MNIST('./dataset', train=False, transform=transforms.ToTensor(), download=True) #train = Falseバージョン
 test_dataloader = DataLoader(mnist_dataset_test, batch_size=batch_size, shuffle=False, num_workers=1)
 num_correct = 0
@@ -61,6 +62,7 @@ for i, data in enumerate(test_dataloader, 0):
     perturbation = torch.clamp(perturbation, -0.3, 0.3) #上限0.3、下限-0.3にTensorをクランプ(元々範囲内なら効果なし)
     adv_img = perturbation + test_img
     adv_img = torch.clamp(adv_img, 0, 1) #上限1、下限0にTensorをクランプ(元々範囲内なら効果なし)
+    #いつもならtest_imgを使用する、今回は敵対的サンプルと一致しているかなのでadv_img
     pred_lab = torch.argmax(target_model(adv_img),1) #target_model = MNIST_target_net().to(device)　なお、dim(縮小する次元)=1
     num_correct += torch.sum(pred_lab==test_label,0) #予測値＝ラベル、pred_lab==test_labelがdimを保持しているか確認
 
