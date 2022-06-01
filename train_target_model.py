@@ -54,8 +54,8 @@ if __name__ == "__main__":
             print("ラベル：",train_labels)
             #print("ロジットモデル：",logits_model) 長い
             print("損失モデル：",loss_model)
-            print("損失エポック：", loss_epoch)
-            print("損失エポック.item：", loss_epoch.item())
+            print("合計損失：", loss_epoch)
+            #print("損失エポック.item：", loss_epoch.item()) 数字のみ
             print("----------------------------------")
 
         print('loss in epoch %d: %f' % (epoch, loss_epoch.item())) #損失を出力
@@ -85,10 +85,10 @@ if __name__ == "__main__":
         
         print("「テスト」番号：",i)
         #print("画像：",test_img) ずーっと0のTensor
-        print("ラベル：",test_label)
-        print("画像の最大インデックス（予測値）：",pred_lab)
-        print("正解数：",num_correct)
+        #print("ラベル：",test_label) #256個*234、最後96個->60000個
+        #print("画像の最大インデックス（予測値）：",pred_lab) #256個*234、最後96個->60000個
         print("一致数：",torch.sum(pred_lab==test_label,0))
+        print("合計一致数：",num_correct)
         #print("正解数.item：",num_correct.item()) 数字のみ
         print("----------------------------------")
 
@@ -113,10 +113,10 @@ if __name__ == "__main__":
         
         print("「学習」番号：",i)
         #print("画像：",test_img) ずーっと0のTensor
-        print("ラベル：",test_label)
-        print("画像の最大インデックス（予測値）：",pred_lab)
-        print("正解数：",num_correct)
+        #print("ラベル：",test_label) #256個*234、最後96個->60000個
+        #print("画像の最大インデックス（予測値）：",pred_lab) #256個*234、最後96個->60000個
         print("一致数：",torch.sum(pred_lab==test_label,0))
+        print("合計一致数：",num_correct)
         #print("正解数.item：",num_correct.item()) 数字
         print("----------------------------------")
 
