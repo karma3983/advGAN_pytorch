@@ -30,7 +30,7 @@ if __name__ == "__main__":
 
     # training the target model　対象モデルの学習
     target_model = MNIST_target_net().to(device)
-    target_model.train() #model.train()：ネットワークを学習モードに
+    target_model.train() #model.train()：ネットワークを学習モードに(DropoutとBatchNormに影響するフラグ)
     opt_model = torch.optim.Adam(target_model.parameters(), lr=0.001) #optim=最適化、lrは学習率(0.1以下なら収束)
     epochs = 40
     for epoch in range(epochs):
