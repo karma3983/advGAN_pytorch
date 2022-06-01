@@ -20,10 +20,10 @@ def weights_init(m):
         #Tensor(m.biad.data)を定数0で初期化するー＞例：tensor([0,0,0,0,0,0,0,0,0])
         nn.init.constant_(m.bias.data, 0)
 
-
+#main.pyで使用
 class AdvGAN_Attack:
     def __init__(self,
-                 device, #GPU
+                 device, #CUDA
                  model, #MNIST_target_net
                  model_num_labels, #10
                  image_nc, #1
@@ -39,8 +39,8 @@ class AdvGAN_Attack:
         self.box_max = box_max
 
         self.gen_input_nc = image_nc #1
-        self.netG = models.Generator(self.gen_input_nc, image_nc).to(device) #modelsファイル
-        self.netDisc = models.Discriminator(image_nc).to(device) #modelsファイル
+        self.netG = models.Generator(self.gen_input_nc, image_nc).to(device) #modelsファイル device='cuda:0'付き
+        self.netDisc = models.Discriminator(image_nc).to(device) #modelsファイル device='cuda:0'付き
 
         # initialize all weights 重み初期化
         self.netG.apply(weights_init)
@@ -58,18 +58,18 @@ class AdvGAN_Attack:
     def train_batch(self, x, labels): #images, labels
         # optimize D ディスクリミネーター最適化
         for i in range(1):
-            perturbation = self.netG(x) #models.Generator(self.gen_input_nc, image_nc).to(device)
+            perturbation = self.netG(x) #self.netG = models.Generator(self.gen_input_nc, image_nc).to(device)
 
             # add a clipping trick
             adv_images = torch.clamp(perturbation, -0.3, 0.3) + x #上限0.3、下限-0.3
-            adv_images = torch.clamp(adv_images, self.box_min, self.box_max)
+            adv_images = torch.clamp(adv_images, self.box_min, self.box_max) #上限1、下限0
 
             self.optimizer_D.zero_grad() #52行の勾配を0に
-            pred_real = self.netDisc(x)
+            pred_real = self.netDisc(x) #self.netDisc = models.Discriminator(image_nc).to(device)
             loss_D_real = F.mse_loss(pred_real, torch.ones_like(pred_real, device=self.device))
             loss_D_real.backward() #誤差逆伝播(この際勾配が溜まる)
 
-            pred_fake = self.netDisc(adv_images.detach())
+            pred_fake = self.netDisc(adv_images.detach())  #self.netDisc = models.Discriminator(image_nc).to(device)
             loss_D_fake = F.mse_loss(pred_fake, torch.zeros_like(pred_fake, device=self.device))
             loss_D_fake.backward() #誤差逆伝播(この際勾配が溜まる)
             loss_D_GAN = loss_D_fake + loss_D_real
@@ -142,13 +142,25 @@ class AdvGAN_Attack:
                 loss_G_fake_sum += loss_G_fake_batch
                 loss_perturb_sum += loss_perturb_batch
                 loss_adv_sum += loss_adv_batch
+                
+                print("loss_D_batch：",loss_D_batch)
+                print("loss_G_fake_batch：",loss_G_fake_batch)
+                print("loss_perturb_batch：",loss_perturb_batch)
+                print("loss_adv_batch：",loss_adv_batch)
 
             # print statistics
             num_batch = len(train_dataloader)
-            print("epoch %d:\nloss_D: %.3f, loss_G_fake: %.3f,\
-             \nloss_perturb: %.3f, loss_adv: %.3f, \n" %
+#            print("epoch %d:\nloss_D: %.3f, loss_G_fake: %.3f,\
+#             \nloss_perturb: %.3f, loss_adv: %.3f, \n" %
+#                  (epoch, loss_D_sum/num_batch, loss_G_fake_sum/num_batch,
+#                   loss_perturb_sum/num_batch, loss_adv_sum/num_batch))
+
+            print("train_dataloaderの長さ：",len(train_dataloader))
+            print("epoch %d:\nloss_D: %.6f, loss_G_fake: %.6f,\
+             \nloss_perturb: %.6f, loss_adv: %.6f, \n" %
                   (epoch, loss_D_sum/num_batch, loss_G_fake_sum/num_batch,
                    loss_perturb_sum/num_batch, loss_adv_sum/num_batch))
+            print("-------------------------------------------")
 
             # save generator
             if epoch%20==0:
