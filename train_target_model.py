@@ -83,8 +83,8 @@ if __name__ == "__main__":
         num_correct += torch.sum(pred_lab==test_label,0) #pred_lab==test_labelがdimを保持しているか確認
         
         print("番号：",i)
-        print("画像：",train_img)
-        print("ラベル：",train_labels)
+        print("画像：",test_img)
+        print("ラベル：",test_label)
         print("画像の最大インデックス（予測値）：",train_labels)
         print("正解数：",num_correct)
         print("----------------------------------")
