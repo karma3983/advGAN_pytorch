@@ -63,7 +63,7 @@ if __name__ == "__main__":
     # save model
     targeted_model_file_name = './MNIST_target_model.pth'
     torch.save(target_model.state_dict(), targeted_model_file_name) #target_model.state_dict()を保存('./MNIST_target_model.pth'に)
-    target_model.eval() #model.eval()：self.train(False)を返す、ネットワークを推論モードに、dropoutやbatch normの on/offの切替？
+    target_model.eval() #model.eval()：self.train(False)を返す、ネットワークを推論モードに、DropoutやBatchNormの on/offの切替？
 
     # MNIST test dataset
     #'./dataset'はデータセットが存在するディレクトリ　train=Trueならtrain-image-idx3-ubyteからデータセット作成、falseならt10k-images-idx3-ubyteで作成
@@ -72,7 +72,7 @@ if __name__ == "__main__":
                                                     train=False, 
                                                     transform=transforms.ToTensor(), 
                                                     download=True)
-    # mnist_datasetからサンプルを取得し、訓練データ（ミニバッチ）を作成　shuffle=シャッフルするかどうか　num_workers=並列実行数
+    # mnist_datasetからサンプルを取得し、訓練データ（ミニバッチ）を作成　shuffle=実行する度ランダムにするかどうか　num_workers=並列実行数
     test_dataloader = DataLoader(mnist_dataset_test, batch_size=batch_size, shuffle=True, num_workers=1)
     num_correct = 0
     #enumerate()のカッコ内にリスト(train_dataloader)等を指定、iとdataに番号(0,1,2,...)と要素を格納、番号の開始値は0に指定
