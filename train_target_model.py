@@ -5,6 +5,7 @@ import torchvision.transforms as transforms #ToTensor(入力：PILImage　出力
 from torch.utils.data import DataLoader #Dataloader等のユーティリティ関数
 import torch.nn.functional as F #conv2d、活性化関数(relu等)、dropout、cross_entropy等
 from models import  MNIST_target_net #models内の定義
+import time
 
 #python 〇〇.pyとして実行されているかどうか判定（importされても動かない）
 #__name__を使うと、モジュール名が文字列で入る（例：math.__name__なら"math"）、しかしコマンドラインから実行すると"__main__"が入る
@@ -35,6 +36,7 @@ if __name__ == "__main__":
     opt_model = torch.optim.Adam(target_model.parameters(), lr=0.001) #optim=最適化、lrは学習率(0.1以下なら収束)
     epochs = 40
     for epoch in range(epochs): #0から40
+        start = time.time()
         loss_epoch = 0
         if epoch == 20:
             opt_model = torch.optim.Adam(target_model.parameters(), lr=0.0001) #lrは学習率(0.1以下なら収束)
@@ -59,6 +61,7 @@ if __name__ == "__main__":
             #print("----------------------------------")
 
         print('loss in epoch %d: %f' % (epoch, loss_epoch.item())) #損失を出力
+        print ('時間：{} 秒'.format(time.time()-start))
 
     # save model
     targeted_model_file_name = './MNIST_target_model.pth'
