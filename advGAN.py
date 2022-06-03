@@ -145,14 +145,14 @@ class AdvGAN_Attack:
                 loss_perturb_sum += loss_perturb_batch
                 loss_adv_sum += loss_adv_batch
                 
-                print("番号：",i)
+                #print("番号：",i)
                 #print("画像",images)
                 #print("ラベル：",labels)
-                print("loss_D_batch：",loss_D_batch)
-                print("loss_G_fake_batch：",loss_G_fake_batch)
-                print("loss_perturb_batch：",loss_perturb_batch)
-                print("loss_adv_batch：",loss_adv_batch)
-                print("-------------------------------------------")
+                #print("loss_D_batch：",loss_D_batch)
+                #print("loss_G_fake_batch：",loss_G_fake_batch)
+                #print("loss_perturb_batch：",loss_perturb_batch)
+                #print("loss_adv_batch：",loss_adv_batch)
+                #print("-------------------------------------------")
 
             # print statistics 統計を表示
             num_batch = len(train_dataloader) #469
