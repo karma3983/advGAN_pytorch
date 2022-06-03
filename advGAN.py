@@ -155,13 +155,13 @@ class AdvGAN_Attack:
                 #print("-------------------------------------------")
 
             # print statistics 統計を表示
-            num_batch = len(train_dataloader) #469
+            num_batch = len(train_dataloader) #必ず469
 #            print("epoch %d:\nloss_D: %.3f, loss_G_fake: %.3f,\
 #             \nloss_perturb: %.3f, loss_adv: %.3f, \n" %
 #                  (epoch, loss_D_sum/num_batch, loss_G_fake_sum/num_batch,
 #                   loss_perturb_sum/num_batch, loss_adv_sum/num_batch))
 
-            print("train_dataloaderの長さ：",len(train_dataloader))
+            #print("train_dataloaderの長さ：",len(train_dataloader)) #469を出す方法
             #loss_D:0に近くなる、loss_G_fake:1に近くなる、loss_perturb:5~6くらい？、loss_adv_sum:0.1くらい？
             print("epoch %d:\nloss_D: %.6f, loss_G_fake: %.6f,\
              \nloss_perturb: %.6f, loss_adv: %.6f, \n" %
