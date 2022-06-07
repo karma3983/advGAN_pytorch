@@ -7,6 +7,7 @@
 import torch.nn as nn
 import torch.nn.functional as F #conv2d、活性化関数(relu等)、dropout、cross_entropy等
 
+i = 0
 
 # Target Model definition
 class MNIST_target_net(nn.Module):
@@ -138,7 +139,8 @@ class Generator(nn.Module):
         x = self.bottle_neck(x)
         #print('ボトルネック後のxは、{}',format(x))
         x = self.decoder(x)
-        print('デコーダー後のxは、{}',format(x))
+        #print('デコーダー後のxは、{}',format(x))
+        i = i + 1
         return x
 
 
