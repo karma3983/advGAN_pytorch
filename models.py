@@ -135,9 +135,10 @@ class Generator(nn.Module):
         x = self.encoder(x)
         #print('エンコーダー後のxは、',format(x))
         x = self.bottle_neck(x)
-        print('ボトルネック後のxは、',format(x))
+        #print('ボトルネック後のxは、',format(x))
         x = self.decoder(x)
         #print('デコーダー後のxは、',format(x))
+        print('デコーダー後のxは、',format(x.item))
         return x
 
 
