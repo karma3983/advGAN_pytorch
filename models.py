@@ -2,6 +2,7 @@
 #https://qiita.com/mathlive/items/8e1f9a8467fff8dfd03c
 #https://qiita.com/poorko/items/c151ff4a827f114fe954
 #2dmaxpool https://cvml-expertguide.net/terms/dl/layers/pooling-layer/max-pooling/#:~:text=%E6%9C%80%E5%A4%A7%E5%80%A4%E3%83%97%E3%83%BC%E3%83%AA%E3%83%B3%E3%82%B0(Max%20Pooling%20)%E3%81%A8%E3%81%AF%EF%BC%8CCNN(,%E6%AE%8B%E3%81%99%E3%83%97%E3%83%BC%E3%83%AA%E3%83%B3%E3%82%B0%E5%87%A6%E7%90%86%E3%81%A7%E3%81%82%E3%82%8B%EF%BC%8E
+#torchvision.datasets.MNISTの使い方　https://blog.csdn.net/xjm850552586/article/details/109137914#:~:text=datasets,%E5%8F%AF%E4%BB%A5%E5%AF%BC%E5%85%A5%E6%95%B0%E6%8D%AE%E9%9B%86%E3%80%82
 
 #nnはパラメータを持つ層、Fはパラメータを持たない層がそれぞれ入っているモジュール
 import torch.nn as nn
