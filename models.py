@@ -141,6 +141,7 @@ class Generator(nn.Module):
         x = self.decoder(x)
         #print('デコーダー後のxは、{}',format(x))
         i = i + 1
+        print('iは',i)
         return x
 
 
