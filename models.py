@@ -7,8 +7,6 @@
 import torch.nn as nn
 import torch.nn.functional as F #conv2d、活性化関数(relu等)、dropout、cross_entropy等
 
-i = 0
-
 # Target Model definition
 class MNIST_target_net(nn.Module):
     #インスタンス（○○ = MNIST_target_net）を生成した際に、1番最初に呼び出される関数（コンストラクタ）
@@ -135,13 +133,11 @@ class Generator(nn.Module):
     def forward(self, x):
         #print('元のxは、{}',format(x))
         x = self.encoder(x)
-        #print('エンコーダー後のxは、{}',format(x))
+        #print('エンコーダー後のxは、',format(x))
         x = self.bottle_neck(x)
-        #print('ボトルネック後のxは、{}',format(x))
+        print('ボトルネック後のxは、',format(x))
         x = self.decoder(x)
-        #print('デコーダー後のxは、{}',format(x))
-        i = i + 1
-        print('iは',i)
+        #print('デコーダー後のxは、',format(x))
         return x
 
 
