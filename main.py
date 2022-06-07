@@ -8,7 +8,7 @@ from models import MNIST_target_net
 use_cuda=True
 image_nc=1
 epochs = 1 #本来は60
-batch_size = 128
+batch_size = 4 #本来は128
 BOX_MIN = 0
 BOX_MAX = 1
 
