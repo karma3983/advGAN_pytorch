@@ -51,14 +51,14 @@ if __name__ == "__main__":
             loss_model.backward() #誤差逆伝播(この際勾配が溜まる)
             opt_model.step() #パラメータをモデルに反映
             
-            #print("「学習」番号：",i)
-            #print("画像：",train_imgs) ずーっと0のTensor
-            #print("ラベル：",train_labels) #256個*234、最後96個->60000個
-            #print("ロジットモデル：",logits_model) 長い
-            #print("損失モデル：",loss_model)
-            #print("合計損失：", loss_epoch)
-            #print("損失エポック.item：", loss_epoch.item()) 数字のみ
-            #print("----------------------------------")
+            print("「学習」番号：",i)
+            print("画像：",train_imgs) ずーっと0のTensor
+            print("ラベル：",train_labels) #256個*234、最後96個->60000個
+            print("ロジットモデル：",logits_model) 長い
+            print("損失モデル：",loss_model)
+            print("合計損失：", loss_epoch)
+            print("損失エポック.item：", loss_epoch.item()) 数字のみ
+            print("----------------------------------")
 
         print('loss in epoch %d: %f' % (epoch, loss_epoch.item())) #損失を出力
         #print ('時間：{} 秒'.format(time.time()-start))
@@ -86,15 +86,15 @@ if __name__ == "__main__":
         pred_lab = torch.argmax(target_model(test_img), 1) #target_model = MNIST_target_net().to(device)　なお、dim(縮小する次元)=1
         num_correct += torch.sum(pred_lab==test_label,0) #予測値＝ラベル、pred_lab==test_labelがdimを保持しているか確認
         
-        #print("「テスト」番号：",i)
-        #print("画像：",test_img) ずーっと0のTensor
-        #print("ラベル：",test_label) #256個*39、最後16個->10000個
-        #print("画像の最大インデックス（予測値）：",pred_lab) #256個*39、最後16個->10000個
-        #print("一致数：",torch.sum(pred_lab==test_label,0)) #device='cuda:0'付き
-        #print("合計一致数：",num_correct) #device='cuda:0'付き
-        #print("一致数：",torch.sum(pred_lab==test_label,0).item())
-        #print("合計一致数：",num_correct.item())
-        #print("----------------------------------")
+        print("「テスト」番号：",i)
+        print("画像：",test_img) ずーっと0のTensor
+        print("ラベル：",test_label) #256個*39、最後16個->10000個
+        print("画像の最大インデックス（予測値）：",pred_lab) #256個*39、最後16個->10000個
+        print("一致数：",torch.sum(pred_lab==test_label,0)) #device='cuda:0'付き
+        print("合計一致数：",num_correct) #device='cuda:0'付き
+        print("一致数：",torch.sum(pred_lab==test_label,0).item())
+        print("合計一致数：",num_correct.item())
+        print("----------------------------------")
 
     print('accuracy in testing set: %f\n'%(num_correct.item()/len(mnist_dataset_test))) #正確さを出力
     
@@ -115,14 +115,14 @@ if __name__ == "__main__":
         pred_lab = torch.argmax(target_model(test_img), 1) #target_model = MNIST_target_net().to(device)　なお、dim(縮小する次元)=1
         num_correct += torch.sum(pred_lab==test_label,0) #予測値＝ラベル、pred_lab==test_labelがdimを保持しているか確認
         
-        #print("「学習」番号：",i)
-        #print("画像：",test_img) ずーっと0のTensor
-        #print("ラベル：",test_label) #256個*234、最後96個->60000個
-        #print("画像の最大インデックス（予測値）：",pred_lab) #256個*234、最後96個->60000個
-        #print("一致数：",torch.sum(pred_lab==test_label,0)) #device='cuda:0'付き
-        #print("合計一致数：",num_correct) #device='cuda:0'付き
-        #print("一致数：",torch.sum(pred_lab==test_label,0).item())
-        #print("合計一致数：",num_correct.item())
-        #print("----------------------------------")
+        print("「学習」番号：",i)
+        print("画像：",test_img) ずーっと0のTensor
+        print("ラベル：",test_label) #256個*234、最後96個->60000個
+        print("画像の最大インデックス（予測値）：",pred_lab) #256個*234、最後96個->60000個
+        print("一致数：",torch.sum(pred_lab==test_label,0)) #device='cuda:0'付き
+        print("合計一致数：",num_correct) #device='cuda:0'付き
+        print("一致数：",torch.sum(pred_lab==test_label,0).item())
+        print("合計一致数：",num_correct.item())
+        print("----------------------------------")
 
     print('accuracy in trainning set: %f\n'%(num_correct.item()/len(mnist_dataset_test))) #正確さを出力
