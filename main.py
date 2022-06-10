@@ -4,6 +4,7 @@ import torchvision.transforms as transforms
 from torch.utils.data import DataLoader
 from advGAN import AdvGAN_Attack
 from models import MNIST_target_net
+from models import Generator #追加
 
 use_cuda=True
 image_nc=1
@@ -34,3 +35,5 @@ advGAN = AdvGAN_Attack(device, #CUDA
 
 #dataloader = DataLoader(mnist_dataset, batch_size=128, shuffle=True, num_workers=1), エポック数60
 advGAN.train(dataloader, epochs)
+
+
