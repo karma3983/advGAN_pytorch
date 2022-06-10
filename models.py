@@ -132,13 +132,13 @@ class Generator(nn.Module):
 
     #入力としてTensorを受け取る
     def forward(self, x):
-        print('元のxは、{}',format(x))
+        #print('元のxは、{}',format(x))
         x = self.encoder(x)
-        print('エンコーダー後のxは、',format(x))
+        #print('エンコーダー後のxは、',format(x))
         x = self.bottle_neck(x)
-        print('ボトルネック後のxは、',format(x))
+        #print('ボトルネック後のxは、',format(x))
         x = self.decoder(x)
-        print('デコーダー後のxは、',format(x))
+        #print('デコーダー後のxは、',format(x))
         return x
 
 
