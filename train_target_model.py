@@ -52,12 +52,12 @@ if __name__ == "__main__":
             opt_model.step() #パラメータをモデルに反映
             
             print("「学習」番号：",i)
-            print("画像：",train_imgs) ずーっと0のTensor
+            print("画像：",train_imgs) #ずーっと0のTensor
             print("ラベル：",train_labels) #256個*234、最後96個->60000個
-            print("ロジットモデル：",logits_model) 長い
+            print("ロジットモデル：",logits_model) #長い
             print("損失モデル：",loss_model)
             print("合計損失：", loss_epoch)
-            print("損失エポック.item：", loss_epoch.item()) 数字のみ
+            print("損失エポック.item：", loss_epoch.item()) #数字のみ
             print("----------------------------------")
 
         print('loss in epoch %d: %f' % (epoch, loss_epoch.item())) #損失を出力
