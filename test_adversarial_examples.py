@@ -4,6 +4,7 @@ import torchvision.transforms as transforms
 from torch.utils.data import DataLoader
 import models
 from models import MNIST_target_net
+import matplotlib.pyplot as plt
 
 use_cuda=True
 image_nc=1
@@ -46,18 +47,31 @@ for i, data in enumerate(train_dataloader, 0):
     pred_lab = torch.argmax(target_model(adv_img),1) #target_model = MNIST_target_net().to(device)　なお、dim(縮小する次元)=1
     num_correct += torch.sum(pred_lab==test_label,0) #予測値＝ラベル、pred_lab==test_labelがdimを保持しているか確認
 
-    print("番号：",i)
-    print("画像",test_img)
-    print("ラベル：",test_label)
-    print("ノイズ：",perturbation)
-    print("ノイズ＋画像：",adv_img)
-    print("予測値：",pred_lab)
-    print("正解値：",num_correct)
-    print("-------------------------------------------")
+    #print("番号：",i)
+    #print("画像",test_img)
+    #print("ラベル：",test_label)
+    #print("ノイズ：",perturbation)
+    #print("ノイズ＋画像：",adv_img)
+    #print("予測値：",pred_lab)
+    #print("正解値：",num_correct)
+    #print("-------------------------------------------")
 
 print('MNIST training dataset:')
 print('num_correct: ', num_correct.item())
 print('accuracy of adv imgs in training set: %f\n'%(num_correct.item()/len(mnist_dataset)))  # num_correct.item() ÷ 60000
+
+for i in train_dataloader:
+  print("real")
+  plt.imshow(i[0][0].reshape(28,28))
+  plt.show()
+  #real_inputs = i[0][0]
+  #noise = (torch.rand(real_inputs.shape[0], 128)-0.5)/0.5
+  #noise = noise.to(device)
+  #fake_inputs = G(noise)
+  #print("fake")
+  #plt.imshow(fake_inputs[0][0].cpu().detach().numpy().reshape(28,28))
+  #plt.show()
+  break
 
 # test adversarial examples in MNIST testing dataset　MNISTデータセットでテストする
 #基本的にtrain_target_model.pyと同じ
@@ -80,3 +94,33 @@ print('MNIST test dataset:')
 print('num_correct: ', num_correct.item())
 print('accuracy of adv imgs in testing set: %f\n'%(num_correct.item()/len(mnist_dataset_test)))  # num_correct.item() ÷ 10000
 
+#番号： 468
+#画像 tensor([[[[0., 0., 0.,  ..., 0., 0., 0.],
+#        省略
+#          ...,
+#          [0., 0., 0.,  ..., 0., 0., 0.],
+#          [0., 0., 0.,  ..., 0., 0., 0.],
+#          [0., 0., 0.,  ..., 0., 0., 0.]]]], device='cuda:0')
+#ラベル： tensor([3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 8, 9, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9,
+#        6, 0, 3, 4, 1, 4, 0, 7, 8, 7, 7, 9, 0, 4, 9, 4, 0, 5, 8, 5, 9, 8, 8, 4,
+#        0, 7, 1, 3, 5, 3, 1, 6, 5, 3, 8, 7, 3, 1, 6, 8, 5, 9, 2, 2, 0, 9, 2, 4,
+#        6, 7, 3, 1, 3, 6, 6, 2, 1, 2, 6, 0, 7, 8, 9, 2, 9, 5, 1, 8, 3, 5, 6, 8],
+#       device='cuda:0')
+#ノイズ： tensor([[[[-1.0992e-02, -4.5701e-03, -1.8996e-02,  ...,  5.3821e-02,
+#        省略
+#          ...,
+#          [-3.5965e-03, -4.3009e-03,  5.5456e-03,  ...,  1.4112e-03,
+#           -1.0565e-02,  2.1239e-04]]]], device='cuda:0',
+#       grad_fn=<ClampBackward1>)
+#ノイズ＋画像： tensor([[[[0.0000e+00, 0.0000e+00, 0.0000e+00,  ..., 5.3821e-02,
+#        省略
+#          ...,
+#          [0.0000e+00, 0.0000e+00, 5.5456e-03,  ..., 1.4112e-03,
+#           0.0000e+00, 2.1239e-04]]]], device='cuda:0',
+#       grad_fn=<ClampBackward1>)
+#予測値： tensor([8, 8, 2, 7, 3, 3, 3, 2, 3, 8, 8, 3, 3, 3, 2, 3, 8, 8, 8, 2, 3, 5, 3, 3,
+#        3, 2, 8, 8, 3, 8, 8, 3, 3, 3, 3, 3, 2, 3, 3, 8, 2, 2, 3, 2, 3, 3, 3, 8,
+#        2, 9, 3, 0, 2, 7, 3, 2, 2, 8, 3, 3, 8, 3, 2, 3, 2, 3, 8, 8, 2, 3, 8, 8,
+#        2, 5, 8, 3, 6, 3, 3, 2, 3, 8, 2, 3, 3, 3, 3, 8, 3, 2, 3, 3, 2, 2, 3, 3], 96個
+#       device='cuda:0')
+#正解値： tensor(3082, device='cuda:0')
