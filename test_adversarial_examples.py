@@ -5,6 +5,7 @@ from torch.utils.data import DataLoader
 import models
 from models import MNIST_target_net
 import matplotlib.pyplot as plt
+%matplotlib inline
 
 use_cuda=True
 image_nc=1
