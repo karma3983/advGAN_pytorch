@@ -4,8 +4,6 @@ import torchvision.transforms as transforms
 from torch.utils.data import DataLoader
 import models
 from models import MNIST_target_net
-import matplotlib
-matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
 
 use_cuda=True
@@ -73,6 +71,9 @@ for i in train_dataloader:
   #print("fake")
   #plt.imshow(fake_inputs[0][0].cpu().detach().numpy().reshape(28,28))
   #plt.show()
+    
+  plt.plot([1,2,3,4])
+  plt.show()
   break
 
 # test adversarial examples in MNIST testing dataset　MNISTデータセットでテストする
