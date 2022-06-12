@@ -174,3 +174,6 @@ class AdvGAN_Attack:
                 netG_file_name = models_path + 'netG_epoch_' + str(epoch) + '.pth' #models_path = './models/'
                 torch.save(self.netG.state_dict(), netG_file_name)
 
+                
+            netG_file_name = models_path + 'netG_epoch_' + str(epoch) + '.pth' #models_path = './models/' #検証用
+            torch.save(self.netG.state_dict(), netG_file_name) #検証用
