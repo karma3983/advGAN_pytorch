@@ -62,7 +62,8 @@ print('accuracy of adv imgs in training set: %f\n'%(num_correct.item()/len(mnist
 
 for i in train_dataloader:
   print("real")
-  plt.imshow(i[0][0].reshape(28,28))
+  #plt.imshow(i[0][0].reshape(28,28))
+  plt.imshow(i[0][0])
   plt.show()
   #real_inputs = i[0][0]
   #noise = (torch.rand(real_inputs.shape[0], 128)-0.5)/0.5
