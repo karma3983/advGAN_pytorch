@@ -45,6 +45,15 @@ for i, data in enumerate(train_dataloader, 0):
     pred_lab = torch.argmax(target_model(adv_img),1) #target_model = MNIST_target_net().to(device)　なお、dim(縮小する次元)=1
     num_correct += torch.sum(pred_lab==test_label,0) #予測値＝ラベル、pred_lab==test_labelがdimを保持しているか確認
 
+    print("番号：",i)
+    print("画像",test_img)
+    print("ラベル：",test_label)
+    print("ノイズ：",perturbation)
+    print("ノイズ＋画像：",adv_img)
+    print("予測値：",pred_lab)
+    print("正解値：",num_correct)
+    print("-------------------------------------------")
+
 print('MNIST training dataset:')
 print('num_correct: ', num_correct.item())
 print('accuracy of adv imgs in training set: %f\n'%(num_correct.item()/len(mnist_dataset)))  # num_correct.item() ÷ 60000
