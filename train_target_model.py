@@ -6,6 +6,7 @@ from torch.utils.data import DataLoader #Dataloader等のユーティリティ�
 import torch.nn.functional as F #conv2d、活性化関数(relu等)、dropout、cross_entropy等
 from models import  MNIST_target_net #models内の定義
 import time
+import matplotlib.pyplot as plt
 
 #python 〇〇.pyとして実行されているかどうか判定（importされても動かない）
 #__name__を使うと、モジュール名が文字列で入る（例：math.__name__なら"math"）、しかしコマンドラインから実行すると"__main__"が入る
@@ -126,8 +127,8 @@ if __name__ == "__main__":
         #print("----------------------------------")
 
     print('accuracy in trainning set: %f\n'%(num_correct.item()/len(mnist_dataset_test))) #正確さを出力
-
-    
+    plt.plot([1,2,3,4])
+    plt.show() 
     
 #「学習」番号： 234
 #画像： tensor([[[[0., 0., 0.,  ..., 0., 0., 0.],
