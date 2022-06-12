@@ -4,6 +4,8 @@ import torchvision.transforms as transforms
 from torch.utils.data import DataLoader
 import models
 from models import MNIST_target_net
+import matplotlib
+matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
 
 use_cuda=True
