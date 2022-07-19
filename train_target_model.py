@@ -35,7 +35,7 @@ if __name__ == "__main__":
     target_model = MNIST_target_net().to(device)
     target_model.train() #model.train()：ネットワークを学習モードに(DropoutとBatchNormに影響するフラグ)
     opt_model = torch.optim.Adam(target_model.parameters(), lr=0.001) #optim=最適化、lrは学習率(0.1以下なら収束)
-    epochs = 5 #本来は40
+    epochs = 40 #本来は40------------------------------------------------------------------------------------------------------------------------------------
     for epoch in range(epochs): #0から40
         #start = time.time()
         loss_epoch = 0
