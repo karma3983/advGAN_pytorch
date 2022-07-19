@@ -8,7 +8,7 @@ from models import Generator #追加
 
 use_cuda=True
 image_nc=1
-epochs = 3 #本来は60
+epochs = 60 #本来は60------------------------------------------------------------------------------------------------------------
 batch_size = 128 #本来は128
 BOX_MIN = 0
 BOX_MAX = 1
